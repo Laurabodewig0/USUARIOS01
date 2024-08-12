@@ -1,0 +1,66 @@
+const prompt = require('prompt-sync') ()
+ 
+const listarCadastro = require('./listarCadastro');
+const adicionarCadastro = require('./adicionarCadastro');
+const atualizarCadastro = require('./atualizarCadastro');
+const removerCadastro = require('./removerCadastro');
+
+
+ function mainMenu() {
+    console.log(`
+    1. Listar cadastro
+    2. Adicionar cadastro
+    3. Atualizar cadastro 
+    4. Remover cadastro
+    5. Sair
+    `);
+ }
+
+ const opcao = prompt('Escolha uma opção: ');
+ let index;
+
+ switch (opcao) {
+   case '1':
+       listarCadastro();
+       mainMenu();
+       break;
+   case '2':
+       const id = prompt('ID: ');
+       const nome = prompt('Nome: ');
+       const numero = prompt('Numero: ');
+       const email = prompt ('Email: ');
+       adicionarCadastro({ id, nome, numero, email });
+       console.log('Cadastro adicionado com sucesso!');
+       mainMenu();
+       break;
+   case '3':
+       listarCadastro();
+       index = parseInt(prompt('Número de cadastros atualizado: '))
+       const novoID = prompt('Novo : id');
+       const novoNome = prompt('Novo nome: ');
+       const novoNumero = prompt('Novo numero: ');
+       const novoEmail = prompt('Novo email: ');
+       atualizarCadastro(index, { id: novoID, nome: novoNome, numero: novoNumero, email: novoEmail });
+       console.log('lista de cadastros atualizada com sucesso!');
+       mainMenu();
+       break;
+   case '4':
+       listarCadastro();
+       index = parseInt(prompt('Número de cadastros a remover: '))
+       let confirmaçao = prompt('Deseja mesno remover?')
+       if(removerCadastro(index,confirmaçao) == true){
+            console.log('cadastro removido com sucesso!');
+       } else{
+        console.log('cancelado')
+       }
+       mainMenu();
+       break;
+   case '5':
+       break;
+   default:
+       console.log('Opção inválida!');
+       mainMenu();
+   }
+
+
+mainMenu();
